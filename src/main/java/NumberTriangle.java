@@ -1,4 +1,6 @@
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -116,16 +118,31 @@ public class NumberTriangle {
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
-        //
         NumberTriangle top = null;
 
         String line = br.readLine();
+        String[] parts = line.split(" ");
+        top = new NumberTriangle(Integer.parseInt(parts[0]));
+
+        // -- create arrays keeping track of
+        List<NumberTriangle> prev = new ArrayList<>();
+        prev.add(top);
+        line = br.readLine();
         while (line != null) {
-
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
-
-            // TODO process the line
+            int prevLen = prev.size();
+            String[] currInt = line.split(" ");
+            List<NumberTriangle> curr = new ArrayList<>();
+            // create list of "sub-branches" to add
+            for (int i = 0; i < currInt.length; i++) {
+                curr.add(new NumberTriangle(Integer.parseInt(currInt[i])));
+            }
+            // do the actual setting
+            for (int i = 0; i < prevLen; i++) {
+                prev.get(i).setLeft(curr.get(i));
+                prev.get(i).setRight(curr.get(i+1));
+            }
+            // prepare for next iteration
+            prev = curr;
 
             //read the next line
             line = br.readLine();
